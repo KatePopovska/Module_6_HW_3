@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Host.Repositories
 {
-    public class CatalogTypeRepository : BaseCatalogRepository<CatalogType>
+    public sealed class CatalogTypeRepository : BaseCatalogRepository<CatalogType>
     {
         private readonly ILogger<CatalogTypeRepository> _logger;
 
@@ -23,7 +23,7 @@ namespace Catalog.Host.Repositories
             .LongCountAsync();
 
             var itemsOnPage = await _dbContext.CatalogTypes
-                .OrderBy(c => c.Type)
+                .OrderBy(c => c.Name)
                 .Skip(pageSize * pageIndex)
                 .Take(pageSize)
                 .ToListAsync();

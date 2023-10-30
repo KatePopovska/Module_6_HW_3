@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Host.Repositories
 {
-    public class CatalogBrandRepository : BaseCatalogRepository<CatalogBrand>
+    public sealed class CatalogBrandRepository : BaseCatalogRepository<CatalogBrand>
     {
         private readonly ILogger<CatalogBrandRepository> _logger;
 
@@ -22,7 +22,7 @@ namespace Catalog.Host.Repositories
             var totalItems = await _dbContext.CatalogBrands
               .LongCountAsync();
 
-            var itemsOnPage = await _dbContext.CatalogBrands.OrderBy(x => x.Brand)
+            var itemsOnPage = await _dbContext.CatalogBrands.OrderBy(x => x.Name)
                 .Skip(pageSize * pageIndex)
                 .Take(pageSize)
                 .ToListAsync();

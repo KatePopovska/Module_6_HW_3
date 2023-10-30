@@ -5,37 +5,13 @@ using Catalog.Host.Services.Interfaces;
 
 namespace Catalog.Host.Services
 {
-    public class CatalogBrandService : BaseDataService<ApplicationDbContext>, IBaseCatalogService<CatalogBrand>
+    public class CatalogBrandService : BaseCatalogService<CatalogBrand>
     {
-        private readonly IBaseCatalogRepository<CatalogBrand> _catalogBrandRepository;
-
-        public CatalogBrandService(
-            IDbContextWrapper<ApplicationDbContext> dbContextWrapper,
+        public CatalogBrandService(IDbContextWrapper<ApplicationDbContext> dbContextWrapper, 
             ILogger<BaseDataService<ApplicationDbContext>> logger,
-            IBaseCatalogRepository<CatalogBrand> catalogBrandRepository)
-            : base(dbContextWrapper, logger)
+            IBaseCatalogRepository<CatalogBrand> repository) 
+            : base(dbContextWrapper, logger, repository)
         {
-            _catalogBrandRepository = catalogBrandRepository;
-        }
-
-        public Task<int?> Add(CatalogBrand brand)
-        {
-            return ExecuteSafeAsync(() => _catalogBrandRepository.Add(brand));
-        }
-
-        public async Task Delete(int id)
-        {
-            await ExecuteSafeAsync(() => _catalogBrandRepository.Delete(id));
-        }
-
-        public async Task<CatalogBrand> GetById(int id)
-        {
-            return await _catalogBrandRepository.GetByIdAsync(id);
-        }
-
-        public async Task<int?> Update(CatalogBrand brand)
-        {
-            return await ExecuteSafeAsync(() => _catalogBrandRepository.Update(brand));
         }
     }
 }

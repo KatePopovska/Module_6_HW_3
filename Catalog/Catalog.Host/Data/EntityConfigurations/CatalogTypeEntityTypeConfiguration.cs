@@ -18,7 +18,7 @@ public class CatalogTypeEntityTypeConfiguration
             .UseHiLo("catalog_type_hilo")
             .IsRequired();
 
-        builder.Property(cb => cb.Type)
+        builder.Property(cb => cb.Name)
             .IsRequired()
             .HasMaxLength(100);
     }

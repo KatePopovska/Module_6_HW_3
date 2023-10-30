@@ -25,20 +25,20 @@ public class CatalogItemController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Add(CatalogItem catalogItem)
+    public async Task<IActionResult> Add(CreateProductRequest catalogItem)
     {
-        var result = await _catalogItemService.Add(catalogItem);
+        var result = await _catalogItemService.Add(catalogItem.Name, catalogItem.Description, catalogItem.Price, catalogItem.AvailableStock, catalogItem.CatalogBrandId, catalogItem.CatalogTypeId, catalogItem.PictureFileName);
         return Ok(new AddItemResponse<int?>() { Id = result });
     }
 
     [HttpPut]
     [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Update(CatalogItem catalogItem)
+    public async Task<IActionResult> Update(int id, CreateProductRequest catalogItem)
     {
         try
         {
-            var result = await _catalogItemService.Update(catalogItem);
+            var result = await _catalogItemService.Update(id, catalogItem.Name, catalogItem.Description, catalogItem.Price, catalogItem.AvailableStock, catalogItem.CatalogBrandId, catalogItem.CatalogTypeId, catalogItem.PictureFileName);
             return Ok(new AddItemResponse<int?>() { Id = result });
         }
         catch (KeyNotFoundException)

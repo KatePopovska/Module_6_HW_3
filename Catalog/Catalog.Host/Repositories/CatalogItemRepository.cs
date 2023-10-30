@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Host.Repositories;
 
-public class CatalogItemRepository : BaseCatalogRepository<CatalogItem>, ICatalogItemRepository
+public sealed class CatalogItemRepository : BaseCatalogRepository<CatalogItem>, ICatalogItemRepository
 {
     private readonly ILogger<CatalogItemRepository> _logger;
 
@@ -38,8 +38,8 @@ public class CatalogItemRepository : BaseCatalogRepository<CatalogItem>, ICatalo
     public async Task<List<CatalogItem>> GetByBrandAsync(string brand)
     {
         var items = await _dbContext.CatalogItems.Include(x => x.CatalogBrand)
-            .Where(x => x.CatalogBrand.Brand == brand)
-            .OrderBy(x => x.CatalogBrand.Brand)
+            .Where(x => x.CatalogBrand.Name == brand)
+            .OrderBy(x => x.CatalogBrand.Name)
             .ToListAsync();
 
         if (items.Count == 0)
@@ -53,8 +53,8 @@ public class CatalogItemRepository : BaseCatalogRepository<CatalogItem>, ICatalo
     public async Task<List<CatalogItem>> GetByTypeAsync(string type)
     {
         var items = await _dbContext.CatalogItems.Include(x => x.CatalogType)
-            .Where(x => x.CatalogType.Type == type)
-            .OrderBy(x => x.CatalogType.Type)
+            .Where(x => x.CatalogType.Name == type)
+            .OrderBy(x => x.CatalogType.Name)
             .ToListAsync();
 
         if (items.Count == 0)

@@ -163,7 +163,7 @@ namespace Catalog.Host.Tests.Services
             var expectedResult = new PaginatedItems<CatalogType>
             {
                 TotalCount = 2,
-                Data = new List<CatalogType> { new CatalogType { Type = "test", Id = 2 } }
+                Data = new List<CatalogType> { new CatalogType { Name = "test", Id = 2 } }
             };
             var dto = new CatalogTypeDto
             {
@@ -206,7 +206,7 @@ namespace Catalog.Host.Tests.Services
             var expectedResult = new PaginatedItems<CatalogBrand>
             {
                 TotalCount = 2,
-                Data = new List<CatalogBrand> { new CatalogBrand { Brand = "test", Id = 2 } }
+                Data = new List<CatalogBrand> { new CatalogBrand { Name = "test", Id = 2 } }
             };
             var dto = new CatalogBrandDto
             {

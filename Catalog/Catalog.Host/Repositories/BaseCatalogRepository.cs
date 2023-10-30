@@ -1,4 +1,6 @@
 ﻿using Catalog.Host.Data;
+using Catalog.Host.Data.Entities;
+using Catalog.Host.Repositories.Enums;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
 
@@ -15,11 +17,44 @@ namespace Catalog.Host.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task<int?> Add(T entity)
+        public async Task<int?> Add(string name, string description, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string pictureFileName)
         {
-            _dbContext.Set<T>().Add(entity);
+            var item1 = new CatalogItem
+            {
+                CatalogBrandId = catalogBrandId,
+                CatalogTypeId = catalogTypeId,
+                Description = description,
+                Name = name,
+                PictureFileName = pictureFileName,
+                Price = price
+            };
+            var item = await _dbContext.AddAsync(item1);
+
             await _dbContext.SaveChangesAsync();
-            return entity.Id;
+
+            return item.Entity.Id;
+        }
+
+        public async Task<int?> Add(string name, EntityType entityType)
+        {
+            if(entityType == EntityType.CatalogType)
+            {
+                var type1 = new CatalogType
+                {
+                    Name = name,
+                };
+                var type = await _dbContext.AddAsync(type1);
+                return type.Entity.Id;
+            }
+            else
+            {
+                var brand1 = new CatalogBrand 
+                {
+                    Name = name 
+                };
+                var brand  = await _dbContext.AddAsync(brand1);
+                return brand.Entity.Id;
+            }
         }
 
         public async Task Delete(int id)
@@ -28,7 +63,7 @@ namespace Catalog.Host.Repositories
             if (entityToDelete == null)
             {
                 throw new KeyNotFoundException("Not Found");
-            }
+           }
 
             _dbContext.Set<T>().Remove(entityToDelete);
             await _dbContext.SaveChangesAsync();
@@ -46,13 +81,37 @@ namespace Catalog.Host.Repositories
             return entity;
         }
 
-        public async Task<int?> Update(T entity)
+        public async Task<int?> Update(int id,string name, string description, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string pictureFileName)
         {
-            _dbContext.Set<T>().Update(entity);
+            var item = _dbContext.Update(new CatalogItem
+            {
+                Name = name,
+                Description = description,
+                Price = price,
+                AvailableStock = availableStock,
+                CatalogBrandId = catalogBrandId,
+                PictureFileName = pictureFileName
+            });
             await _dbContext.SaveChangesAsync();
-            return entity.Id;
+            return item.Entity.Id;
         }
 
+        public async Task<int?> Update(int id, string name, EntityType entityType)
+        {
+            if (entityType == EntityType.CatalogType)
+            {
+                var type = _dbContext.Update(new CatalogType { Name = name });
+               
+                await _dbContext.SaveChangesAsync();
+                return type.Entity.Id;
+            }
+            else
+            {
+                var brand = _dbContext.Update(new CatalogBrand { Name = name }); 
+                await _dbContext.SaveChangesAsync();
+                return brand.Entity.Id;
+            }
+        }
         public abstract Task<PaginatedItems<T>> GetByPageAsync(int pageIndex, int pageSize);
     }
 }

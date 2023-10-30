@@ -34,11 +34,11 @@ public static class DbInitializer
     {
         return new List<CatalogBrand>()
         {
-            new CatalogBrand() { Brand = "Azure" },
-            new CatalogBrand() { Brand = ".NET" },
-            new CatalogBrand() { Brand = "Visual Studio" },
-            new CatalogBrand() { Brand = "SQL Server" },
-            new CatalogBrand() { Brand = "Other" }
+            new CatalogBrand() { Name = "Azure" },
+            new CatalogBrand() { Name = ".NET" },
+            new CatalogBrand() { Name = "Visual Studio" },
+            new CatalogBrand() { Name = "SQL Server" },
+            new CatalogBrand() { Name = "Other" }
         };
     }
 
@@ -46,10 +46,10 @@ public static class DbInitializer
     {
         return new List<CatalogType>()
         {
-            new CatalogType() { Type = "Mug" },
-            new CatalogType() { Type = "T-Shirt" },
-            new CatalogType() { Type = "Sheet" },
-            new CatalogType() { Type = "USB Memory Stick" }
+            new CatalogType() { Name = "Mug" },
+            new CatalogType() { Name = "T-Shirt" },
+            new CatalogType() { Name = "Sheet" },
+            new CatalogType() { Name = "USB Memory Stick" }
         };
     }
 

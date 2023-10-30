@@ -12,7 +12,7 @@ namespace Catalog.Host.Tests.Services
         private readonly CatalogBrand _testBrand = new CatalogBrand()
         {
             Id = 1,
-            Brand = "brandName"
+            Name = "brandName"
         };
         public CatalogBrandServiceTests()
         {
@@ -30,9 +30,9 @@ namespace Catalog.Host.Tests.Services
         public async Task AddAsync_Success()
         {
             int testResult = 2;
-            _catalogBrandRepository.Setup(s => s.Add(It.IsAny<CatalogBrand>())).ReturnsAsync(testResult);
+            _catalogBrandRepository.Setup(s => s.Add(It.IsAny<string>(), Repositories.Enums.EntityType.CatalogBrand)).ReturnsAsync(testResult);
 
-            var result = await _catalogService.Add(_testBrand);
+            var result = await _catalogService.Add(_testBrand.Name, Repositories.Enums.EntityType.CatalogBrand);
 
             result.Should().Be(testResult);
         }
@@ -41,9 +41,9 @@ namespace Catalog.Host.Tests.Services
         public async Task AddAsync_Failed()
         {
             int? testResult = null;
-            _catalogBrandRepository.Setup(s => s.Add(It.IsAny<CatalogBrand>())).ReturnsAsync(testResult);
+            _catalogBrandRepository.Setup(s => s.Add(It.IsAny<string>(), Repositories.Enums.EntityType.CatalogBrand)).ReturnsAsync(testResult);
 
-            var result = await _catalogService.Add(_testBrand);
+            var result = await _catalogService.Add(_testBrand.Name, Repositories.Enums.EntityType.CatalogBrand);
 
             result.Should().Be(testResult);
         }
@@ -52,9 +52,9 @@ namespace Catalog.Host.Tests.Services
         public async Task UpdateAsync_Success()
         {
             int testResult = 3;
-            _catalogBrandRepository.Setup(s => s.Update(It.IsAny<CatalogBrand>())).ReturnsAsync(testResult);
+            _catalogBrandRepository.Setup(s => s.Update(It.IsAny<int>(), It.IsAny<string>(), Repositories.Enums.EntityType.CatalogBrand)).ReturnsAsync(testResult);
 
-            var result = await _catalogService.Update(_testBrand);
+            var result = await _catalogService.Update(_testBrand.Id, _testBrand.Name, Repositories.Enums.EntityType.CatalogBrand);
 
             result.Should().Be(testResult);
         }
@@ -64,9 +64,9 @@ namespace Catalog.Host.Tests.Services
         {
             int? testResult = null;
 
-            _catalogBrandRepository.Setup(s => s.Update(_testBrand)).ThrowsAsync(new Exception("Something went wrong"));
+            _catalogBrandRepository.Setup(s => s.Update(It.IsAny<int>(), It.IsAny<string>(), Repositories.Enums.EntityType.CatalogBrand)).ReturnsAsync(testResult);
 
-            Func<Task> result = async () => await _catalogService.Update(_testBrand);
+            Func<Task> result = async () => await _catalogService.Update(_testBrand.Id, _testBrand.Name, Repositories.Enums.EntityType.CatalogBrand);
 
             result.Should().ThrowAsync<Exception>("Something went wrong");
         }

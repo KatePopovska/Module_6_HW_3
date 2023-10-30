@@ -21,20 +21,20 @@ public class CatalogTypeController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Add(CatalogType type)
+    public async Task<IActionResult> Add(string name)
     {
-        var result = await _catalogTypeService.Add(type);
+        var result = await _catalogTypeService.Add(name, Repositories.Enums.EntityType.CatalogType);
         return Ok(new AddItemResponse<int?>() { Id = result });
     }
 
     [HttpPut]
     [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Update(CatalogType type)
+    public async Task<IActionResult> Update(int id, string name)
     {
         try
         {
-            var result = await _catalogTypeService.Update(type);
+            var result = await _catalogTypeService.Update(id, name, Repositories.Enums.EntityType.CatalogType);
             return Ok(new AddItemResponse<int?>() { Id = result });
         }
         catch (KeyNotFoundException)

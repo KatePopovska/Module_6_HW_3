@@ -17,7 +17,7 @@ public class CatalogBrandEntityTypeConfiguration
             .UseHiLo("catalog_brand_hilo")
             .IsRequired();
 
-        builder.Property(cb => cb.Brand)
+        builder.Property(cb => cb.Name)
             .IsRequired()
             .HasMaxLength(100);
     }

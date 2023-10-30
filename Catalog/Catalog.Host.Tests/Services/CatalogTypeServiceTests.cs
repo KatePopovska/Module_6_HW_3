@@ -12,7 +12,7 @@ namespace Catalog.Host.Tests.Services
         private readonly CatalogType _testType = new CatalogType()
         {
             Id = 1,
-            Type = "typeName"
+            Name = "typeName"
         };
 
         public CatalogTypeServiceTests()
@@ -31,9 +31,9 @@ namespace Catalog.Host.Tests.Services
         public async Task AddAsync_Success()
         {            
             int testResult = 2;
-            _catalogTypeRepository.Setup(s => s.Add(It.IsAny<CatalogType>())).ReturnsAsync(testResult);
+            _catalogTypeRepository.Setup(s => s.Add(It.IsAny<string>(), Repositories.Enums.EntityType.CatalogType)).ReturnsAsync(testResult);
 
-            var result = await _catalogService.Add(_testType);
+            var result = await _catalogService.Add(_testType.Name, Repositories.Enums.EntityType.CatalogType);
 
             result.Should().Be(testResult);
         }
@@ -42,9 +42,9 @@ namespace Catalog.Host.Tests.Services
         public async Task AddAsync_Failed()
         {
             int? testResult = null;
-            _catalogTypeRepository.Setup(s => s.Add(It.IsAny<CatalogType>())).ReturnsAsync(testResult);
+            _catalogTypeRepository.Setup(s => s.Add(It.IsAny<string>(), Repositories.Enums.EntityType.CatalogType)).ReturnsAsync(testResult);
 
-            var result = await _catalogService.Add(_testType);
+            var result = await _catalogService.Add(_testType.Name, Repositories.Enums.EntityType.CatalogType);
 
             result.Should().Be(testResult);
         }
@@ -53,9 +53,9 @@ namespace Catalog.Host.Tests.Services
         public async Task UpdateAsync_Success()
         {
             int testResult = 3;
-             _catalogTypeRepository.Setup(s => s.Update(It.IsAny<CatalogType>())).ReturnsAsync(testResult);
+             _catalogTypeRepository.Setup(s => s.Update(It.IsAny<int>(), It.IsAny<string>(), Repositories.Enums.EntityType.CatalogType)).ReturnsAsync(testResult);
 
-            var result = await _catalogService.Update(_testType);
+            var result = await _catalogService.Update(_testType.Id, _testType.Name, Repositories.Enums.EntityType.CatalogType);
 
             result.Should().Be(testResult);
         }
@@ -65,9 +65,9 @@ namespace Catalog.Host.Tests.Services
         {
             int? testResult = null;
 
-            _catalogTypeRepository.Setup(s => s.Update(_testType)).ThrowsAsync(new Exception("Something went wrong"));
+            _catalogTypeRepository.Setup(s => s.Update(It.IsAny<int>(), It.IsAny<string>(), Repositories.Enums.EntityType.CatalogType)).ThrowsAsync(new Exception("Something went wrong"));
 
-            Func<Task> result = async () => await _catalogService.Update(_testType);
+            Func<Task> result = async () => await _catalogService.Update(_testType.Id, _testType.Name, Repositories.Enums.EntityType.CatalogType);
 
             result.Should().ThrowAsync<Exception>("Something went wrong");
         }
